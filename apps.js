@@ -12,6 +12,10 @@ l5.style.color='white';
 const list=document.getElementsByTagName('li');
 list[4].style.background='grey';
 
+const sec=document.querySelectorAll('.list-group-item')[1];
+sec.style.backgroundColor='green';
 
+document.querySelector('.list-group-item:nth-child(3)').style.visibility='hidden';
+document.querySelector('.list-group-item:nth-child(odd)').style.background='green';
 
 
