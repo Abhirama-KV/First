@@ -33,4 +33,20 @@ function removeItems(e){
     }
 }
 
+const filter=document.getElementById('filter');
+filter.addEventListener('keyup',match);
 
+function match(e){
+    let text=e.target.value.toLowerCase();
+    console.log(text);
+    let items=ul.getElementsByTagName('li');
+    // console.log(items);
+    Array.from(items).forEach(function(item){
+        
+        if(item.firstChild.textContent.toLowerCase().indexOf(text)!=-1){
+            item.style.display='block';
+        }else{
+            item.style.display='none';
+        }
+    })
+}
