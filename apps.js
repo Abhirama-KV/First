@@ -1,21 +1,21 @@
-const items=document.getElementsByClassName('list-group-item');
-console.log(items)
-for(let i=0;i<items.length;i++){
-    items[i].style.fontWeight='bold';
-}
+const h2=document.querySelector('.title')
 
-const li3=document.getElementsByClassName('list-group-item');
-li3[2].style.backgroundColor='green';
+h2.parentElement.style.color='blue'
 
-const l5=document.getElementsByClassName('diff-class')[0];
-l5.style.color='white';
-const list=document.getElementsByTagName('li');
-list[4].style.background='grey';
+const header=document.querySelector('.container')
+console.log(header.childNodes[0])
+header.children[0].style.color='red'
+console.log(header.firstElementChild)
+console.log(header.nextSibling)
+console.log(header.nextElementSibling)
 
-const sec=document.querySelectorAll('.list-group-item')[1];
-sec.style.backgroundColor='green';
-
-document.querySelector('.list-group-item:nth-child(3)').style.visibility='hidden';
-document.querySelector('.list-group-item:nth-child(odd)').style.background='green';
-
+const div1=document.createElement('div');
+const text=document.createTextNode('Hello World');
+div1.appendChild(text);
+const main=document.querySelector('#main')
+main.appendChild(div1);
+div1.setAttribute('title','hello')
+div1.className='div1'
+div1.id='divId'
+console.log(div1)
 
