@@ -1,52 +1,36 @@
-const submitBtn=document.getElementById('submitBtn');
-submitBtn.addEventListener('click',addEffect);
-const ul=document.getElementById('items'); 
-const btn=document.getElementsByClassName('btn-sm');
+const myForm=document.getElementById('submit');
+const nameInput=document.getElementById('name');
+const emailInput=document.getElementById('email');
 
 
-function addEffect(e){
-    e.preventDefault();
-    let input=document.getElementById('item').value;
-    const li=document.createElement('li');
-    console.log(input);
-    li.appendChild(document.createTextNode(input));
-    li.className='list-group-item';
-    ul.appendChild(li);
+myForm.addEventListener('click', onSubmit);
 
-    const newBtn=document.createElement('button');
-    newBtn.className='btn btn-danger btn-sm float-right delete';
-    newBtn.appendChild(document.createTextNode('X'));
-    li.appendChild(newBtn);
+function onSubmit(e) {
+  e.preventDefault();
+  
+  if(nameInput.value === '' || emailInput.value === '') {
+    // alert('Please enter all fields');
+    msg.classList.add('error');
+    msg.innerHTML = 'Please enter all fields';
 
+    // Remove error after 3 seconds
+    setTimeout(() => msg.remove(), 3000);
+  } else {
+    // Create new list item with user
+    const li = document.createElement('li');
+    const userList=document.getElementById('users');
+    // Add text node with input values
+    li.appendChild(document.createTextNode(`${nameInput.value}: ${emailInput.value}`));
+
+    // Add HTML
+    // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
+
+    // Append to ul
+    userList.appendChild(li);
     
 }
+localStorage.setItem('name',nameInput.value);
+    console.log(localStorage.getItem('name'))
+    localStorage.setItem('email',emailInput.value);
 
-
-ul.addEventListener('click',removeItems)
-
-function removeItems(e){
-    if(e.target.classList.contains('delete')){
-        if(confirm('Are you sure?')){
-            const li=e.target.parentElement;
-            ul.removeChild(li);
-        }
-    }
-}
-
-const filter=document.getElementById('filter');
-filter.addEventListener('keyup',match);
-
-function match(e){
-    let text=e.target.value.toLowerCase();
-    console.log(text);
-    let items=ul.getElementsByTagName('li');
-    // console.log(items);
-    Array.from(items).forEach(function(item){
-        
-        if(item.firstChild.textContent.toLowerCase().indexOf(text)!=-1){
-            item.style.display='block';
-        }else{
-            item.style.display='none';
-        }
-    })
-}
+  }
