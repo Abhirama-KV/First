@@ -65,3 +65,18 @@ function remove(e){
         }
     }
 }
+
+ul.addEventListener('click',editForm);
+
+function editForm(e){
+    if(e.target.classList.contains('edit')){
+        let li=e.target.parentElement;
+        let obj=JSON.parse(localStorage.getItem(li.className));
+        localStorage.removeItem(li.className);
+        ul.removeChild(li);
+        
+        inputEmail.value=obj.email;
+        inputPhone.value=obj.phone;
+        inputName.value=obj.name;
+    }
+}
