@@ -166,4 +166,40 @@ function remove(e){
   }
 }
 
+// EDIT
+ul.addEventListener('click',change);
+
+function change(e){
+  if(e.target.classList.contains('edit')){
+    const list=e.target.parentElement;
+    
+      let myEmail=list.className;
+      // console.log(myEmail);
+      
+      axios.get('https://crudcrud.com/api/def8b441c5d84e04933954ab97eb5a7f/apiPostman')
+      .then((response)=>{
+        // console.log(response.data);
+        for(let i=0;i<response.data.length;i++){
+          // console.log(response.data[i].email+'   myEmail'+myEmail);
+          if(response.data[i].email==myEmail){
+            myId=response.data[i]._id;
+            myName.value=response.data[i].myName;
+            phone.value=response.data[i].phone;
+            email.value=response.data[i].email;
+            // console.log(response.data[i].email+'   '+myEmail);
+            // response.data.splice(i,1);
+            break;
+          }
+        }
+
+
+        axios.delete('https://crudcrud.com/api/def8b441c5d84e04933954ab97eb5a7f/apiPostman/'+myId).then(res=>console.log(res))
+        .catch(err=>console.log(err));
+      }).catch(err=>console.log(err));
+      
+      ul.removeChild(list);
+    
+  }
+}
+
 
