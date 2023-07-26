@@ -137,6 +137,33 @@ window.addEventListener('DOMContentLoaded',()=>{
   }).catch((err)=>console.log(err));
 })
 
-
+//DELETE an object
+function remove(e){
+  if(e.target.classList.contains('delete')){
+    const list=e.target.parentElement;
+    if(confirm('Are u sure?')){
+      let myEmail=list.className;
+      // console.log(myEmail);
+      let myId;
+      axios.get('https://crudcrud.com/api/def8b441c5d84e04933954ab97eb5a7f/apiPostman')
+      .then((response)=>{
+        // console.log(response.data);
+        for(let i=0;i<response.data.length;i++){
+          // console.log(response.data[i].email+'   myEmail'+myEmail);
+          if(response.data[i].email==myEmail){
+            myId=response.data[i]._id;
+            // console.log(response.data[i].email+'   '+myEmail);
+            response.data.splice(i,1);
+            break;
+          }
+        }
+        axios.delete('https://crudcrud.com/api/def8b441c5d84e04933954ab97eb5a7f/apiPostman/'+myId).then(res=>console.log(res))
+        .catch(err=>console.log(err));
+      }).catch(err=>console.log(err));
+      
+      ul.removeChild(list);
+    }
+  }
+}
 
 
