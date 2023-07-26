@@ -108,6 +108,34 @@ function remove(e){
     }
   }
 }
+function showOnScreen(obj){
+  let list=document.createElement('li');
+  list.className=email.value;
+  list.appendChild(document.createTextNode(`${obj.myName}-${obj.email}-${obj.phone}`));
+  let del=document.createElement('button');
+  del.appendChild(document.createTextNode('delete'));
+  del.className='delete';
+  let edit=document.createElement('button');
+  edit.appendChild(document.createTextNode('edit'));
+  edit.className='edit';
+  list.appendChild(edit);
+  list.appendChild(del);
+  ul.appendChild(list);
+  myName.value='';
+  email.value='';
+  phone.value='';
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  axios.get('https://crudcrud.com/api/2873c2e1e54d40979e58049755018069/apiPostman')
+  .then((response)=>{
+    // console.log(response);
+    for(let i=0;i<response.data.length;i++){
+      console.log(response.data[i]);
+      showOnScreen(response.data[i]);
+    }
+  }).catch((err)=>console.log(err));
+})
 
 
 
