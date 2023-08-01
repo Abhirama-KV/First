@@ -14,3 +14,11 @@ const Student={
 }
 
 Student.details();
+
+// CREATING SERVER USING LOAD
+const http=require('http');
+let server=http.createServer((res,req)=>{
+    console.log(req);
+});
+
+server.listen(3000);
