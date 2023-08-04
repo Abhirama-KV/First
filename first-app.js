@@ -1,6 +1,12 @@
-const http=require('http');
-const requestHandler=require('./route');
-console.log(requestHandler.someText);
-let server=http.createServer(requestHandler.handler);
+const express=require('express');
+const app=express();
 
-server.listen(4001);
+app.use('/add-product',(req,res,next)=>{
+    console.log('In the middlewear');
+    res.send('<h1>Hello World<h1/>');
+   
+})
+
+app.use('/',(req,res,next)=>{
+    console.log('another');
+})
