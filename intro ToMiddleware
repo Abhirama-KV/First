@@ -1,0 +1,31 @@
+const express = require('express')
+
+const app = express()
+const bodyParser=require('body-parser')
+
+app.use(bodyParser.urlencoded({extended:false}))
+
+app.get('/product',(req,res,next)=>{
+    console.log('product')
+    res.send('<h1>product</h1>')
+    
+})
+
+app.get('/add-product',(req,res,next)=>{
+    console.log('addproduct')
+    res.send('<html><form action="/product" method="POST"><input type="text" name="title"><button type="submit">add product</button></form></html>')
+    
+})
+
+app.post('/product',(req,res,next)=>{
+    console.log(req.body)
+    res.send('<h1>product</h1>')
+     
+})
+
+app.use('/',(req,res,next)=>{
+    console.log('middleware')
+    res.send('<h1>hello world</h1>')
+})
+
+app.listen(3000)
