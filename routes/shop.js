@@ -1,11 +1,10 @@
-const path = require('path');
+const express = require('express')
 
-const express = require('express');
+const router = express.Router()
 
-const productController=require('../controllers/products');
+router.get('/',(req,res,next)=>{
+    console.log('middleware')
+    res.send('<h1>hello world</h1>')
+})
 
-const router = express.Router();
-
-router.get('/', productController.getProduct);
-
-module.exports = router;
+module.exports = router
