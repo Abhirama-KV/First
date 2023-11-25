@@ -1,0 +1,49 @@
+const express = require('express')
+
+const router = express.Router()
+
+const fs=require('fs')
+
+const path = require('path')
+
+// router.get('/add-product',(req,res,next)=>{
+//     console.log('addproduct')
+//     res.send('<html><form action="/product" method="POST"><input type="text" name="title"><button type="submit">add product</button></form></html>')
+    
+// })
+
+// router.post('/product',(req,res,next)=>{
+//     console.log(req.body)
+//     res.send('<h1>product</h1>')
+     
+// })
+
+// router.get('/login',(req,res,next)=>{
+//     res.send(`<html><form action="/login" onsubmit="localStorage.setItem('userName',document.getElementById('username').value)" method="POST" ><input placeholder="username" name="username" id="username" type="text"/><button type="submit">submit</button></form></html>`)
+    
+// })
+
+// router.post('/login',(req,res,next)=>{
+//     // fs.writeFile('message.txt',req.body.message,(err)=>{
+//     //     err ? console.log(err) : redirect('/')
+//     // })
+//     res.redirect('/')
+    
+// })
+
+const rootDir = require('../util/path')
+
+router.get('/add-products',(req,res,next)=>{
+    res.sendFile(path.join(rootDir,'views','add-product.html'))
+})
+
+router.get('/contactUs',(req,res,next)=>{
+    res.sendFile(path.join(rootDir,'views','contact.html'))
+})
+
+router.post('/success',(req,res,next)=>{
+    res.send('<h1>Form successfully submitted</h1>')
+})
+
+
+module.exports = router
