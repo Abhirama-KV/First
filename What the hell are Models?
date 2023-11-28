@@ -1,0 +1,99 @@
+//controllers
+
+const Product = require('../models/product')
+
+exports.getAddProduct= (req, res, next) => {
+    res.render('add-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      formsCSS: true,
+      productCSS: true,
+      activeAddProduct: true
+    });
+  }
+
+exports.postAddProduct=(req, res, next) => {
+    const product = new Product(req.body.title)
+    product.save()
+    // products.push({ title: req.body.title });
+    res.redirect('/');
+  }
+
+exports.getProducts = (req, res, next) => {
+    // const products = adminData.products;
+    const products  = Product.fetchAll((products)=>{
+        res.render('shop', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/',
+        hasProducts: products.length > 0,
+        activeShop: true,
+        productCSS: true
+      }
+    )})
+   
+  }  
+
+//models
+
+const fs = require('fs')
+const path = require('path')
+
+
+const p = path.join(path.dirname(process.mainModule.filename),
+        'data',
+        'products.json')
+const getProductFromFile=(cb)=>{
+    
+
+        fs.readFile(p,(err,fileContent)=>{
+            if(err){
+                cb([]);
+            }else{
+                cb(JSON.parse(fileContent))
+            }
+            
+        })
+}
+
+module.exports = class Product{
+
+    
+    save(){
+        // const p = path.join(path.dirname(process.mainModule.filename),
+        //     'data',
+        //     'products.json')
+        
+        getProductFromFile(products=>{
+            products.push(this)
+            fs.writeFile(p, JSON.stringify(products), err=>{
+                console.log(err)
+            })
+        })
+
+        // fs.readFile(p,(err,fileContent)=>{})
+        // fs.readFile(p,(err,fileContent)=>{
+        //     let products = []
+        //     if(!err){
+        //         products = JSON.parse(fileContent)
+        //     }
+           
+        // })
+    }
+
+    static fetchAll(cb){
+        // const p = path.join(path.dirname(process.mainModule.filename),
+        // 'data',
+        // 'products.json')
+
+        // fs.readFile(p,(err,fileContent)=>{
+        //     if(err){
+        //         cb([]);
+        //     }else{
+        //         cb(JSON.parse(fileContent))
+        //     }
+            
+        // })
+        getProductFromFile(cb)
+    }
+}
