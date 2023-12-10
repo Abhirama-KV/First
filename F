@@ -1,0 +1,394 @@
+//CONTROLLERS ADMIN
+const Product = require('../models/product');
+
+exports.getAddProduct = (req, res, next) => {
+  res.render('admin/edit-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    editing:false
+  });
+};
+
+exports.postAddProduct = (req, res, next) => {
+  const id = null;
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+  const product = new Product(null,title, imageUrl, description, price);
+  // product.save().then(
+  //   res.redirect('/')
+  // ).catch(err=>console.log(err));
+  // res.redirect('/');
+  Product.create({
+    title:title,
+    price:price,
+    imageUrl:imageUrl,
+    description:description,
+    
+  }).then(
+    result=>{console.log(result) 
+      res.redirect('/admin/products')}
+  ).catch(err=>console.log(err))
+};
+
+exports.getEditProduct = (req, res, next) => {
+  // const editMode = req.query.edit;
+  // console.log(editMode)
+  // if(!editMode){
+  //   return res.redirect('/')
+  // }
+
+  const prodId = req.params.productId;
+
+  Product.findByPk(prodId).then(
+    product=>{
+      if(!product){
+            return res.redirect('/');
+          }
+      res.render('admin/edit-product', {
+            pageTitle: 'edit Product',
+            path: '/admin/edit-product',
+            editing:true,
+            product:product
+          });
+    }
+  ).catch(err=>console.log(err))
+
+  // Product.findById(prodId,product=>{
+  //   if(!product){
+  //     return res.redirect('/')
+  //   }
+  //   res.render('admin/edit-product', {
+  //     pageTitle: 'edit Product',
+  //     path: '/admin/edit-product',
+  //     editing:true,
+  //     product:product
+  //   });
+  // })
+
+};
+
+exports.postEditProduct = (req,res,next)=>{
+  const prodId=req.body.productId;
+  const updatedTitle=req.body.title;
+  const updatedPrice=req.body.price;
+  const updatedImageUrl=req.body.ImageUrl;
+  const updatedDescription=req.body.description;
+
+  // const updatedProduct=new Product(prodId,updatedTitle,updatedImageUrl,updatedDescription,updatedPrice)
+  // updatedProduct.save()
+  Product.findByPk(prodId).then(
+    product=>{
+      product.title=updatedTitle;
+      product.price=updatedPrice;
+      product.imageUrl=updatedImageUrl;
+      product.description=updatedDescription;
+      return product.save();
+    }
+  ).then(result=>{
+    console.log('updated product '+result)
+    res.redirect('/admin/products')
+  })
+  .catch(err=>console.log(err))
+
+  
+}
+
+exports.postDelete=(req,res,next)=>{
+  const prodId=req.body.productId;
+  // console.log(prodId)
+  // Product.deleteById(prodId)
+  Product.findByPk(prodId).then(
+    product=>{
+      return product.destroy()
+    }
+  ).then(
+    result=>{
+      console.log('DESTROYED')
+      res.redirect('/admin/products')
+    }
+  ).catch(err=>console.log(err))
+
+  
+}
+
+exports.getProducts = (req, res, next) => {
+  Product.findAll().then(
+    products=>{
+         res.render('admin/products', {
+      prods: products,
+      pageTitle: 'Admin Products',
+      path: '/admin/products'
+    });
+    }
+  ).catch(err=>console.log(err))
+  // Product.fetchAll(products => {
+  //   res.render('admin/products', {
+  //     prods: products,
+  //     pageTitle: 'Admin Products',
+  //     path: '/admin/products'
+  //   });
+  // });
+};
+
+
+//CONTROLLERS SHOP
+const Product = require('../models/product');
+const Cart = require('../models/cart')
+
+// exports.getProducts = (req, res, next) => {
+//   Product.fetchAll(products => {
+//     res.render('shop/product-list', {
+//       prods: products,
+//       pageTitle: 'All Products',
+//       path: '/products'
+//     });
+//   });
+// };
+
+// exports.getProduct = (req,res,next) => {
+//   const prodId = req.params.productId;
+  
+//   Product.findById(prodId,product=>{
+//     if(product!=undefined){
+//     res.render('shop/product-detail',{
+//       product:product,
+//       pageTitle:product.title,
+//       path:'/products'
+//     });
+//     }  
+//   });   
+// }
+
+// exports.postCart = (req,res,next)=>{
+//   const prodId = req.body.productId;
+//   Product.findById(prodId,(product)=>{
+//     Cart.addProduct(prodId,product.price)
+//   })
+//   res.redirect('/cart')
+// }
+
+// exports.getIndex = (req, res, next) => {
+//   Product.fetchAll(products => {
+//     res.render('shop/index', {
+//       prods: products,
+//       pageTitle: 'Shop',
+//       path: '/'
+//     });
+//   });
+// };
+
+// exports.getCart = (req, res, next) => {
+//   res.render('shop/cart', {
+//     path: '/cart',
+//     pageTitle: 'Your Cart'
+//   });
+// };
+
+// exports.getOrders = (req, res, next) => {
+//   res.render('shop/orders', {
+//     path: '/orders',
+//     pageTitle: 'Your Orders'
+//   });
+// };
+
+// exports.getCheckout = (req, res, next) => {
+//   res.render('shop/checkout', {
+//     path: '/checkout',
+//     pageTitle: 'Checkout'
+//   });
+// };
+
+
+
+exports.getProducts = (req, res, next) => {
+  Product.findAll().then(
+    product=>{
+      res.render('shop/product-list', {
+              prods: product,
+              pageTitle: 'All Products',
+              path: '/products'
+    })
+  }).catch(err=>console.log(err))
+  // Product.fetchAll().then(([rows,fieldData])=>{    
+  //     res.render('shop/product-list', {
+  //       prods: rows,
+  //       pageTitle: 'All Products',
+  //       path: '/products'
+  //     });   
+  // }
+    
+  // ).catch(err=>console.log(err))
+};
+
+
+exports.getProduct = (req,res,next) => {
+  const prodId = req.params.productId;
+
+  Product.findAll({where:{id:prodId}}).then(products=>{
+    if(products!=undefined){
+          res.render('shop/product-detail',{
+            product:products[0],
+            pageTitle:products[0].title,
+            path:'/products'
+          });
+          } 
+        }).catch(err=>console.log(err))
+  
+  // Product.findById(prodId).then(([product])=>{
+  //   if(product!=undefined){
+  //     res.render('shop/product-detail',{
+  //       product:product[0],
+  //       pageTitle:product.title,
+  //       path:'/products'
+  //     });
+  //     }  
+  // }
+  // ).catch(err=>console.log(err));   
+
+}
+
+
+exports.postCart = (req,res,next)=>{
+ 
+}
+
+exports.getIndex = (req, res, next) => {
+  Product.findAll().then(
+    product=>{
+      res.render('shop/index', {
+                  prods: product,
+                  pageTitle: 'Shop',
+                  path: '/'
+                });
+    }
+  ).catch(err=>console.log(err))
+  // Product.fetchAll().then(
+  //   ([rows,fieldData]) => {
+  //     res.render('shop/index', {
+  //           prods: rows,
+  //           pageTitle: 'Shop',
+  //           path: '/'
+  //         });
+  //   }
+  // ).catch(err=>console.log(err));
+};
+
+exports.getCart = (req, res, next) => {
+ 
+};
+
+exports.getOrders = (req, res, next) => {
+  
+};
+
+exports.getCheckout = (req, res, next) => {
+ 
+};
+
+
+//MODEL PRODUCT
+const Sequelize = require('sequelize')
+
+const sequelize = require('../util/database')
+
+const Product=sequelize.define('items',{
+  id:{
+    type:Sequelize.INTEGER,
+    autoIncrement:true,
+    allowNull:false,
+    primaryKey:true
+  },
+  title:Sequelize.STRING,
+  price:{
+    type:Sequelize.DOUBLE,
+    allowNull:false
+  },
+  imageUrl:{
+    // allowNull:false,
+    type:Sequelize.STRING
+  },
+  descreption:{
+    type:Sequelize.STRING,
+    // allowNull:false
+  }
+
+})
+
+module.exports=Product
+
+//MODEL CART
+const fs = require('fs')
+const path = require('path')
+
+const p = path.join(path.dirname(process.mainModule.filename),
+                'data',
+                'cart.json')
+
+module.exports = class Cart{
+static addProduct(id,productPrice){
+    fs.readFile(p,(err,fileContent)=>{
+        let cart = {products:[],totalPrice:0}
+        if(!err){
+            cart = JSON.parse(fileContent)
+        }
+        const existingProductIndex = cart.products.findIndex(p=> p.id==id )
+        const existingProduct = cart.products[existingProductIndex]
+        let updatedProduct
+        if(existingProduct){
+            updatedProduct = {...existingProduct}
+            updatedProduct.qty = updatedProduct.qty+1;
+            cart.products = [...cart.products]
+            cart.products[existingProductIndex] = updatedProduct
+        }else{
+            updatedProduct = { id:id,qty:1 }
+            cart.products = [...cart.products,updatedProduct]
+        }
+        cart.totalPrice += +AproductPrice
+        fs.writeFile(p,JSON.stringify(cart),(err)=>{
+            console.log(err)
+        })
+    })
+}
+
+static deleteProduct(id,productPrice){
+    fs.readFile(p,(err,fileContent)=>{
+        if(err){
+            return;
+        }
+        const updatedProduct={ ...fileContent }
+        const product=updatedProduct.products.find(p=>p.id === id)
+        updatedCart.products = updatedCart.products.filter(p=>p.id!==id)
+        const productQty=product.qty;
+        updatedProduct.totalPrice=updatedProduct.totalPrice - productPrice * productQty;
+
+        fs.writeFile(p,JSON.stringify(updatedCart),err=>{
+            console.log(err)
+        })
+    })
+}
+
+}
+
+
+//DATABASE
+// const mysql = require('mysql2')
+
+const  Sequelize  = require("sequelize");
+
+// const pool = mysql.createPool({
+//     host:'localhost',
+//     user:'root',
+//     database:'node-complete1',
+//     password:'Abhirama@123' 
+// })
+
+// module.exports=pool.promise()
+
+const sequelize = new Sequelize('node-complete1','root','Abhirama@123',{
+    dialect:'mysql',
+    host:'localhost'
+})
+
+module.exports=sequelize;
