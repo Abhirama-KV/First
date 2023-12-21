@@ -1,0 +1,109 @@
+//NODEJS TEST PROJECT 1
+
+//INDEX.HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Toggle Example</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <button id="submitButton">submit</button>
+        <div class="sidebar" id="sidebar">
+            <section id="sidebarSection">
+                <!-- Content to be displayed in the sidebar -->
+                <h2 id="hiddenSidebar" style="display: none;">Sidebar Section</h2>
+                
+                <button id="displayParagraphButton">Display Paragraph</button>
+                
+                <p id="hiddenParagraph" style="display: none;">This paragraph is hidden by default.</p>
+            </section>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const submitButton = document.getElementById('submitButton');
+            const hiddenSidebar = document.getElementById('hiddenSidebar');
+            const displayParagraphButton = document.getElementById('displayParagraphButton');
+            const hiddenParagraph = document.getElementById('hiddenParagraph');
+        
+            submitButton.addEventListener('click', function () {
+                //sidebar visibility              
+                hiddenSidebar.style.display = 'inline-block';
+            });
+        
+            displayParagraphButton.addEventListener('click', function () {
+                // Toggle the visibility of the hidden paragraph
+                hiddenParagraph.style.display =  'inline-block';
+            });
+        });
+    </script>
+
+
+</body>
+</html>
+
+
+//STYLE.CSS
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+    
+}
+
+#hiddenSidebar {
+    width: 0;
+    height: 100vh;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.5s;
+    
+}
+
+#sidebarSection {
+    
+    padding: 20px;
+    color: white;
+    background: #333;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+#hiddenParagraph {
+    
+    margin-top: 10px;
+    color: white;
+}
+
+#displayParagraphButton {
+    display: block;
+    color:blue
+}
+
+
+//APP.JS
+const express = require('express')
+const app = express();
+
+// app.use('/',(req,res,next)=>{
+//     res.send('HELLO WORLD'); 
+// })
+
+app.use(express.static('view'));
+
+app.listen(3000,()=>{
+    console.log('server is running');
+})
+
